@@ -42,7 +42,7 @@ logging('Start: watcher bot started.')
 
 begin
 
-  TweetStream::Client.new.follow(14352039, 462569554) do |status|
+  TweetStream::Client.new.follow(462569554) do |status|
     logging("Detected tweet: #{status.text}")
     p status
     https = Net::HTTP.new(uri.host, uri.port)

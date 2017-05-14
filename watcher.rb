@@ -44,19 +44,20 @@ begin
 
   TweetStream::Client.new.follow(462569554) do |status|
     logging("Detected tweet: #{status.text}")
-    p status
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request["Content-Type"] = "application/json"
-    payload = {
-      "title" => "#{status.user.screen_name} の新しいツイートがあります", 
-      "body"  => status.text, 
-      "icon"  => "https://pbs.twimg.com/profile_images/1982673843/0216odakyu_twitter.jpg",
-      "url"   => "https://twitter.com/#{status.user.screen_name}/status/#{status.id}",
-      "apikey" => push7apikey}.to_json
-    request.body = payload
-    response = https.request(request)
+    if status.user.id_str == "462569554" then
+      https = Net::HTTP.new(uri.host, uri.port)
+      https.use_ssl = true
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request["Content-Type"] = "application/json"
+      payload = {
+        "title" => "#{status.user.screen_name} の新しいツイートがあります", 
+        "body"  => status.text, 
+        "icon"  => "https://pbs.twimg.com/profile_images/1982673843/0216odakyu_twitter.jpg",
+        "url"   => "https://twitter.com/#{status.user.screen_name}/status/#{status.id}",
+        "apikey" => push7apikey}.to_json
+      request.body = payload
+      response = https.request(request)
+    end
   end
 
 ensure

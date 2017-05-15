@@ -41,11 +41,13 @@ uri = URI.parse("https://api.push7.jp/api/v1/"+push7appno+"/send")
 
 logging('Start: watcher bot started.')
 
+watch_id = 462569554
+
 begin
 
-  TweetStream::Client.new.follow(462569554) do |status|
-    logging("Detected tweet: #{status.text}")
-    if status.user_id == 462569554 then
+  TweetStream::Client.new.follow(watch_id) do |status| 
+    logging("Detected tweet: #{status.text} by #{status.user.id}")
+    if status.user.id == watch_id then
       logging("Push Notification executing tweet from #{status.user.id}")
       https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true

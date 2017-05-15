@@ -6,6 +6,7 @@ require 'rubygems'
 require 'tweetstream'
 require "net/http"
 require "uri"
+require "pp"
 
 # define logging script activity function
 def logging( log_str )
@@ -44,7 +45,8 @@ begin
 
   TweetStream::Client.new.follow(462569554) do |status|
     logging("Detected tweet: #{status.text}")
-    if status.retweeted == false then
+    if status.user_id == 462569554 then
+      logging("Push Notification executing tweet from #{status.user.id}")
       https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true
       request = Net::HTTP::Post.new(uri.request_uri)

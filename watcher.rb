@@ -44,7 +44,7 @@ begin
 
   TweetStream::Client.new.follow(462569554) do |status|
     logging("Detected tweet: #{status.text}")
-    if status.user.id_str == "462569554" then
+    if status.retweeted == false then
       https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true
       request = Net::HTTP::Post.new(uri.request_uri)

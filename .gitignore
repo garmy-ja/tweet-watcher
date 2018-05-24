@@ -1,5 +1,7 @@
 token.conf
+token2.conf
 *~
 _log_watcher
+_log_watcher2
 .env
 *.pid

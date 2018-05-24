@@ -70,7 +70,7 @@ begin
       payload = {
         "attachments" => [
           {
-            "text" => "\*鉄道運行状況通知（小田急）\*\n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
+            "text" => "\*鉄道運行状況通知（小田急）\* <!here> \n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
             "mrkdwn_in" => [ "text" ],
             "color"  => "warning",
             "fields" => detail
@@ -93,8 +93,10 @@ begin
       logging("Slack post executing tweet from #{status.user.id}")
       if ( status.text.match('平常') ) then
         slack_color = "good"
+        mention_text = ""
       else
         slack_color = "warning"
+        mention_text = "<!here>"
       end
 
       https = Net::HTTP.new(uri.host, uri.port)
@@ -104,7 +106,7 @@ begin
       payload = {
         "attachments" => [
           {
-            "text" => "\*鉄道運行状況通知（京王）\*\n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
+            "text" => "\*鉄道運行状況通知（京王）\* #{mention_text}\n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
             "mrkdwn_in" => [ "text" ],
             "color" => slack_color,
 		        "fields" => [

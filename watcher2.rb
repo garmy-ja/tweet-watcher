@@ -42,7 +42,7 @@ uri = URI.parse(slackurl)
 logging('Start: watcher bot(2) started.')
 
 watch_id    = [407585199, 4289920812]
-watch_words = ["株式会社ALE","株式会社Cygames","株式会社アクセルスペース","株式会社アストロスケール","ASTROSCALE","株式会社SmartHR","Qrio株式会社","DATUM STUDIO株式会社","株式会社マクアケ","任天堂株式会社"]
+watch_words = ["株式会社ALE","株式会社Cygames","株式会社アクセルスペース","株式会社アストロスケール","ASTROSCALE","株式会社SmartHR","Qrio株式会社","DATUM STUDIO株式会社","株式会社マクアケ","任天堂株式会社","株式会社Precious Analytics"]
 
 begin
   TweetStream::Client.new.follow(watch_id) do |status|

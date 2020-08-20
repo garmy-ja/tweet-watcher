@@ -41,8 +41,9 @@ uri = URI.parse(slackurl)
 
 logging('Start: watcher bot(2) started.')
 
-watch_id    = [407585199, 4289920812]
+watch_id    = [407585199, 4289920812, 2457800210]
 watch_words = [
+  "が発生し",
   "株式会社ALE",
   "株式会社Cygames",
   "株式会社アクセルスペース",

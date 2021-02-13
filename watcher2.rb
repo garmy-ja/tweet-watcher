@@ -41,7 +41,6 @@ uri = URI.parse(slackurl)
 
 logging('Start: watcher bot(2) started.')
 
-watch_id    = [407585199, 4289920812, 2457800210]
 watch_words = [
   "が発生し",
   "株式会社ALE",
@@ -50,14 +49,12 @@ watch_words = [
   "株式会社アストロスケール",
   "ASTROSCALE",
   "株式会社SmartHR",
-  "Qrio株式会社",
   "DATUM STUDIO株式会社",
   "株式会社マクアケ",
   "任天堂株式会社",
   "株式会社ミラティブ",
   "SHOWROOM株式会社",
   "READYFOR株式会社",
-  "JapanTaxi株式会社",
   "株式会社ispace",
   "株式会社インフォステラ",
   "株式会社鳥人間",
@@ -65,7 +62,8 @@ watch_words = [
 ]
 
 begin
-  TweetStream::Client.new.follow(watch_id) do |status|
+  TweetStream::Client.new.follow(407585199, 4289920812, 2457800210) do |status|
+    logging("catch new tweet from #{status.user.id}")
     watch_words.each do | watch_word |
       if status.text.match(watch_word) and (not status.text.index("RT"))
         logging("Slack post executing tweet from #{status.user.id}")
@@ -76,7 +74,7 @@ begin
         payload = {
           "attachments" => [
             {
-              "text" => "\*Tweet監視bot\* キーワード#{watch_word}にマッチするツイートがなされました。\n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
+              "text" => "\*Tweet監視bot\* キーワード \*#{watch_word}\* にマッチするツイートがなされました。\n#{status.text}\n<https://twitter.com/#{status.user.screen_name}/status/#{status.id}|link to tweet>",
               "mrkdwn_in" => [ "text" ],
               "color"  => "warning"
             }

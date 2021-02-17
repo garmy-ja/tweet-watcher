@@ -3,7 +3,7 @@
 
 # load library
 require 'rubygems'
-require 'tweetstream'
+require 'twitter'
 require "net/http"
 require "uri"
 require "pp"
@@ -28,12 +28,11 @@ end
 
 logging("token files : token.conf")
 conf = open(File.expand_path('../token.conf',__FILE__),'r')
-TweetStream.configure do |config|
+client = Twitter::Streaming::Client.new do |config|
   config.consumer_key        = conf.gets.chomp
   config.consumer_secret     = conf.gets.chomp
-  config.oauth_token         = conf.gets.chomp
-  config.oauth_token_secret  = conf.gets.chomp
-  config.auth_method         = :oauth
+  config.access_token        = conf.gets.chomp
+  config.access_token_secret = conf.gets.chomp
 end
 slackurl    = conf.gets.chomp
 conf.close
@@ -47,7 +46,7 @@ watch_id2 = 599957024
 
 begin
 
-  TweetStream::Client.new.follow(watch_id, watch_id2) do |status|
+  client.filter(follow: [watch_id, watch_id2].join(",")) do |status|
     if status.user.id == watch_id then
       logging("Getting status from webpage")
       sleep 30

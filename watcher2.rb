@@ -3,7 +3,7 @@
 
 # load library
 require 'rubygems'
-require 'tweetstream'
+require 'twitter'
 require "net/http"
 require "uri"
 require "pp"
@@ -27,12 +27,11 @@ end
 
 logging("token files : token2.conf")
 conf = open(File.expand_path('../token2.conf',__FILE__),'r')
-TweetStream.configure do |config|
+client = Twitter::Streaming::Client.new do |config|
   config.consumer_key        = conf.gets.chomp
   config.consumer_secret     = conf.gets.chomp
   config.oauth_token         = conf.gets.chomp
   config.oauth_token_secret  = conf.gets.chomp
-  config.auth_method         = :oauth
 end
 slackurl    = conf.gets.chomp
 conf.close
@@ -62,7 +61,7 @@ watch_words = [
 ]
 
 begin
-  TweetStream::Client.new.follow(407585199, 4289920812, 2457800210) do |status|
+  client.filter(follow: "407585199, 4289920812, 2457800210") do |status|
     logging("catch new tweet from #{status.user.id}")
     watch_words.each do | watch_word |
       if status.text.match(watch_word) and (not status.text.index("RT"))

@@ -30,8 +30,8 @@ conf = open(File.expand_path('../token2.conf',__FILE__),'r')
 client = Twitter::Streaming::Client.new do |config|
   config.consumer_key        = conf.gets.chomp
   config.consumer_secret     = conf.gets.chomp
-  config.oauth_token         = conf.gets.chomp
-  config.oauth_token_secret  = conf.gets.chomp
+  config.access_token        = conf.gets.chomp
+  config.access_token_secret = conf.gets.chomp
 end
 slackurl    = conf.gets.chomp
 conf.close
